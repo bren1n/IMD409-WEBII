@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jeanlima.springmvcapp.model.Aluno;
 import com.jeanlima.springmvcapp.service.AlunoService;
+import com.jeanlima.springmvcapp.service.CursoService;
 import com.jeanlima.springmvcapp.service.MockDataService;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -31,12 +30,16 @@ public class AlunoController {
     @Autowired
     MockDataService mockDataService;
 
+    @Autowired
+    @Qualifier("cursoServiceImpl")
+    CursoService cursoService;
+
 
     @RequestMapping("/showForm")
     public String showFormAluno(Model model){
 
         model.addAttribute("aluno", new Aluno());
-        model.addAttribute("cursos", mockDataService.getCursos());
+        model.addAttribute("cursos", cursoService.getListaCurso());
         model.addAttribute("sistemasOperacionais", mockDataService.getSistemasOperacionais());
         model.addAttribute("linguagens", mockDataService.getLinguagens());
         return "aluno/formAluno";
