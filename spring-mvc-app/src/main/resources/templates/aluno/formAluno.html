@@ -20,10 +20,7 @@
             </select>
         </p>
         <p> Linguagem de programação:
-            <input type="radio" th:field="*{linguagem}" th:value="Java" th:text="Java"/>
-            <input type="radio" th:field="*{linguagem}" th:value="C" th:text="C"/>
-            <input type="radio" th:field="*{linguagem}" th:value="Python" th:text="Python"/>
-            <input type="radio" th:field="*{linguagem}" th:value="Javascript" th:text="Javascript"/>
+            <input type="radio" th:each="linguagem: ${linguagens}" th:field="*{linguagem}" th:value="${linguagem}" th:text="${linguagem}"/>
         </p>
         <p>
             <div th:each="os : ${sistemasOperacionais}">

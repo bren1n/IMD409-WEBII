@@ -11,11 +11,17 @@ public class MockDataService {
     private final String[] sistemasOperacionais = {
         "OSX", "Windows", "Linux"
     };
+    private final String[] linguagens = {
+        "Java", "C", "Python", "Javascript"
+    };
     public String[] getCursos() {
         return cursos;
     }
     public String[] getSistemasOperacionais() {
         return sistemasOperacionais;
+    }
+    public String[] getLinguagens() {
+        return linguagens;
     }
 
     
