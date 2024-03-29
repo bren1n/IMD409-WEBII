@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,6 +72,11 @@ public class AlunoController {
 
     }
 
-    
+    @RequestMapping("/deleteAluno/{id}")
+    public String deleteAluno(@PathVariable int id) {
+        Aluno aluno = alunoService.getAlunoById(id);
+        alunoService.deletarAluno(aluno);
+        return "redirect:/aluno/getListaAlunos";
+    }
     
 }

@@ -23,5 +23,19 @@ public class CursoService {
             return curso;
         }).orElseThrow(() -> null);
     }
+
+    public void createCurso(Curso curso) {
+        cursoRepository.save(curso);
+    }
+
+    public void updateCurso(Integer id, String descricao) {
+        Curso curso = this.getCursoById(id);
+        curso.setDescricao(descricao);
+        cursoRepository.save(curso);
+    }
+
+    public void deleteCursoById(Integer id) {
+        cursoRepository.deleteById(id);
+    }
     
 }
