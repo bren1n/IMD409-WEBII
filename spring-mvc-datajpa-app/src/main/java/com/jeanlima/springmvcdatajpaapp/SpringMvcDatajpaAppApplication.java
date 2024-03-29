@@ -49,9 +49,23 @@ public class SpringMvcDatajpaAppApplication {
              * Cadastrando disciplinas
              */
 
-            disciplinaRepository.save(new Disciplina("Desenvolvimento de Sistemas Web I", "IMD0404"));
-            disciplinaRepository.save(new Disciplina("Desenvolvimento Sistemas Web II", "IMD0409"));
-            disciplinaRepository.save(new Disciplina("Desenvolvimento Sistemas para Dispositivos Móveis", "IMD0409"));
+
+
+            Disciplina d1 = new Disciplina("Desenvolvimento de Sistemas Web I", "IMD0404", "Ementa 1");
+            Disciplina d2 = new Disciplina("Fundamentos Matemáticos da Computação I", "IMD0028", "Ementa 2");
+            Disciplina d3 = new Disciplina("Lógica aplicada à engenharia de software", "DIM0505", "Ementa 3");
+            Disciplina d4 = new Disciplina("Compiladores", "DIM0164", "Ementa 4");
+
+            d1.setCursos(cursos.subList(0, 2));
+            d2.setCursos(cursos.subList(1, 2));
+            d3.setCursos(cursos.subList(3, 4));
+            d4.setCursos(cursos.subList(2, 4));
+
+
+            disciplinaRepository.save(d1);
+            disciplinaRepository.save(d2);
+            disciplinaRepository.save(d3);
+            disciplinaRepository.save(d4);
 
             System.out.println("Disciplinas cadastradas");
             List<Disciplina> disciplinas = disciplinaRepository.findAll();
@@ -61,15 +75,12 @@ public class SpringMvcDatajpaAppApplication {
              * Cadastrando alunos
              */
 
-             Aluno aluno = new Aluno("Jose Silva");
+            Aluno aluno = new Aluno("Jose Silva");
             aluno.setCurso(cursos.get(0));
-            aluno.setDisciplinas(disciplinas);
-             Aluno aluno2 = new Aluno("João Maria");
+            Aluno aluno2 = new Aluno("João Maria");
             aluno2.setCurso(cursos.get(1));
-            aluno2.setDisciplinas(disciplinas.stream().map(disciplina -> { if(disciplina.getDescricao().contains("Web")){return disciplina;} else {return null;}}).collect(Collectors.toList()));
             Aluno aluno3 = new Aluno("Maria Lima");
             aluno3.setCurso(cursos.get(2));
-            aluno3.setDisciplinas(disciplinas);
 
             alunoRepository.save(aluno);
             alunoRepository.save(aluno2);
@@ -90,26 +101,26 @@ public class SpringMvcDatajpaAppApplication {
             );
             
             
-            List<Aluno> alunoPorDisciplina = alunoRepository.findAllByDisciplinaId(disciplinas.get(1).getId());
-            System.out.println("Lista Alunos por Disciplina");
-            alunoPorDisciplina.forEach(
-                e -> {
-                    System.out.println(e.toString());
-                    //System.out.println(e.getDisciplinas().toString());
-                    
-                    
-                }
-                
-            );
+//            List<Aluno> alunoPorDisciplina = alunoRepository.findAllByDisciplinaId(disciplinas.get(1).getId());
+//            System.out.println("Lista Alunos por Disciplina");
+//            alunoPorDisciplina.forEach(
+//                e -> {
+//                    System.out.println(e.toString());
+//                    //System.out.println(e.getDisciplinas().toString());
+//
+//
+//                }
+//
+//            );
 
             
-            Aluno alunoDisciplinas = alunoRepository.findById(2).map(e -> {return e;}).orElseThrow();
-            List<Disciplina> disciplinasPorAluno = disciplinaRepository.findAllByAlunoId(alunoDisciplinas.getId());
-            System.out.println("Aluno");
-            System.out.println(alunoDisciplinas.toString());
-            alunoDisciplinas.setDisciplinas(disciplinasPorAluno);
-            System.out.println("Disciplinas");
-            System.out.println(alunoDisciplinas.getDisciplinas().toString());
+//            Aluno alunoDisciplinas = alunoRepository.findById(2).map(e -> {return e;}).orElseThrow();
+//            List<Disciplina> disciplinasPorAluno = disciplinaRepository.findAllByAlunoId(alunoDisciplinas.getId());
+//            System.out.println("Aluno");
+//            System.out.println(alunoDisciplinas.toString());
+//            alunoDisciplinas.setDisciplinas(disciplinasPorAluno);
+//            System.out.println("Disciplinas");
+//            System.out.println(alunoDisciplinas.getDisciplinas().toString());
 
             
 

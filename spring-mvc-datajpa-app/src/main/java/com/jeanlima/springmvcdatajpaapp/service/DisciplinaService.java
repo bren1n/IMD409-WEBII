@@ -25,11 +25,11 @@ public class DisciplinaService {
         }).orElseThrow(() -> null);
     }
 
-    public List<Disciplina> getAllDisciplinasByAlunoID(Integer id) {
-        return disciplinaRepository.findAllByAlunoId(id);
-    }
-
     public List<Disciplina> getDisciplinasByIds(List<Integer> ids){
         return disciplinaRepository.findAllById(ids);
+    }
+
+    public void salvarDisciplina(Disciplina disciplina) {
+         disciplinaRepository.save(disciplina);
     }
 }

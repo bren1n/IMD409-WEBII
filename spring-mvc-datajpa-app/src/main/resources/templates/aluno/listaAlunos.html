@@ -33,7 +33,7 @@
     <tr th:each="aluno: ${alunos}">
         <td th:text="${aluno.nome}"></td>
         <td th:text="${aluno.curso}"></td>
-        <td th:text="${aluno.disciplinas}"></td>
+        <td th:text="${aluno.curso.disciplinas}"></td>
         <td th:text="${aluno.avatar != null ? aluno.avatar.nomeFantasia : '-'}"></td>
         <td><a th:href="@{'/aluno/deleteAluno/' + ${aluno.id}}">Apagar</a></td>
     </tr>

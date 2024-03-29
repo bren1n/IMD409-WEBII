@@ -1,7 +1,6 @@
 package com.jeanlima.springmvcdatajpaapp.model;
 
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,23 +24,27 @@ public class Disciplina {
     private Integer id;
 
     @Column(length = 50)
-    private String descricao;
+    private String nome;
 
     @Column(length = 7)
     private String codigo;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
-    @JoinTable(name="disciplina_aluno",
-    joinColumns=@JoinColumn(name="disciplina_id"), 
-    inverseJoinColumns=@JoinColumn(name="aluno_id"))
-    private List<Aluno> alunos;
+    @Column(length = 200)
+    private String ementa;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @JoinTable(name="disciplina_curso",
+            joinColumns=@JoinColumn(name="disciplina_id"),
+            inverseJoinColumns=@JoinColumn(name="curso_id"))
+    private List<Curso> cursos;
 
     public Disciplina() {
     }
 
-    public Disciplina(String descricao, String codigo) {
-        this.descricao = descricao;
+    public Disciplina(String nome, String codigo, String ementa) {
+        this.nome = nome;
         this.codigo = codigo;
+        this.ementa = ementa;
     }
 
     public Integer getId() {
@@ -52,34 +55,41 @@ public class Disciplina {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String descricao) {
+        this.nome = descricao;
     }
 
     public String getCodigo() {
         return codigo;
     }
 
+    public String getEmenta() {
+        return ementa;
+    }
+
+    public void setEmenta(String ementa) {
+        this.ementa = ementa;
+    }
+
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    public List<Aluno> getAlunos() {
-        return alunos;
+    public List<Curso> getCursos() {
+        return cursos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
-        this.alunos = alunos;
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
-
 
     @Override
     public String toString() {
-        return "Disciplina [codigo=" + codigo + ", descricao=" + descricao + ", id=" + id
+        return "Disciplina [codigo=" + codigo + ", descricao=" + nome + ", ementa=" + ementa + ", id=" + id
                 + "]";
     }
 
@@ -88,9 +98,9 @@ public class Disciplina {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-        result = prime * result + ((alunos == null) ? 0 : alunos.hashCode());
+        result = prime * result + ((cursos == null) ? 0 : cursos.hashCode());
         return result;
     }
 
@@ -108,20 +118,20 @@ public class Disciplina {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (descricao == null) {
-            if (other.descricao != null)
+        if (nome == null) {
+            if (other.nome != null)
                 return false;
-        } else if (!descricao.equals(other.descricao))
+        } else if (!nome.equals(other.nome))
             return false;
         if (codigo == null) {
             if (other.codigo != null)
                 return false;
         } else if (!codigo.equals(other.codigo))
             return false;
-        if (alunos == null) {
-            if (other.alunos != null)
+        if (cursos == null) {
+            if (other.cursos != null)
                 return false;
-        } else if (!alunos.equals(other.alunos))
+        } else if (!cursos.equals(other.cursos))
             return false;
         return true;
     }

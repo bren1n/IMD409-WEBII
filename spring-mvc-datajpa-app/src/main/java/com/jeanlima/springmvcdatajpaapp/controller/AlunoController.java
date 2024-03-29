@@ -48,14 +48,11 @@ public class AlunoController {
     }
 
     @RequestMapping("/addAluno")
-    public String showFormAluno(@ModelAttribute("aluno") Aluno aluno, @RequestParam("disciplinaIds") List<Integer> disciplinaIds, Model model){
+    public String addAluno(@ModelAttribute("aluno") Aluno aluno, Model model){
 
 
         Curso cursoSelecionado = cursoService.getCursoById(aluno.getCurso().getId());
         aluno.setCurso(cursoSelecionado);
-
-        List<Disciplina> disciplinasSelecionadas = disciplinaService.getDisciplinasByIds(disciplinaIds);
-        aluno.setDisciplinas(disciplinasSelecionadas);
 
         alunoService.salvarAluno(aluno);
 

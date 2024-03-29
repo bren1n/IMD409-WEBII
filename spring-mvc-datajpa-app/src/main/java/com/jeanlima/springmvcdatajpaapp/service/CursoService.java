@@ -2,6 +2,7 @@ package com.jeanlima.springmvcdatajpaapp.service;
 
 import java.util.List;
 
+import com.jeanlima.springmvcdatajpaapp.model.Disciplina;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +16,17 @@ public class CursoService {
     CursoRepository cursoRepository;
 
     public List<Curso> getCursos(){
-        return cursoRepository.findAll();
+        return cursoRepository.getAllCursos();
     }
 
     public Curso getCursoById(Integer id){
         return cursoRepository.findById(id).map(curso -> {
             return curso;
         }).orElseThrow(() -> null);
+    }
+
+    public List<Curso> getCursosByIds(List<Integer> ids){
+        return cursoRepository.findAllById(ids);
     }
 
     public void createCurso(Curso curso) {

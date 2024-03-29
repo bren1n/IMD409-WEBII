@@ -1,6 +1,7 @@
 package com.jeanlima.springmvcdatajpaapp.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -19,6 +20,12 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Aluno> alunos = new HashSet<Aluno>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @JoinTable(name="disciplina_curso",
+            joinColumns=@JoinColumn(name="disciplina_id"),
+            inverseJoinColumns=@JoinColumn(name="curso_id"))
+    private List<Disciplina> disciplinas;
 
 
     public Curso() {
@@ -46,12 +53,12 @@ public class Curso {
         return "Curso [descricao=" + descricao + ", id=" + id + "]";
     }
 
-    public Set<Aluno> getAlunos() {
-        return alunos;
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
     }
 
-    public void setAlunos(Set<Aluno> alunos) {
-        this.alunos = alunos;
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
     }
 
     @Override

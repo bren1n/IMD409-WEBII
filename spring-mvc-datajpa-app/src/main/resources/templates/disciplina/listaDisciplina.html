@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplina</title>
+
+</head>
+
+<body>
+<p>Lista de disciplinas cadastrados </p>
+<table>
+    <thead>
+    <tr>
+        <th th:text="Nome"></th>
+        <th th:text="Código"></th>
+        <th th:text="Ementa"></th>
+        <th th:text="Cursos"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="disciplina: ${disciplinas}">
+        <td th:text="${disciplina.nome}"></td>
+        <td th:text="${disciplina.codigo}"></td>
+        <td th:text="${disciplina.ementa}"></td>
+        <td th:text="${disciplina.cursos}"></td>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+<a href="showForm">Formulário de disciplinas</a><br>
+</body>
+
+</html>

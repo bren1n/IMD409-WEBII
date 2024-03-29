@@ -19,13 +19,6 @@ public class Aluno {
     @JoinColumn(name = "curso_id")
     private Curso curso;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinTable(name="disciplina_aluno",
-    joinColumns=@JoinColumn(name="aluno_id"), 
-    inverseJoinColumns=@JoinColumn(name="disciplina_id"))
-    private List<Disciplina> disciplinas;
-
-
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private Avatar avatar;
@@ -67,15 +60,6 @@ public class Aluno {
     @Override
     public String toString() {
         return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + "]";
-    }
-
-    public List<Disciplina> getDisciplinas() {
-        return disciplinas;
-    }
-
-
-    public void setDisciplinas(List<Disciplina> disciplinas) {
-        this.disciplinas = disciplinas;
     }
 
     public Avatar getAvatar() {
