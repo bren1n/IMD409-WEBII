@@ -93,6 +93,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public void deletar(Integer id) {
-        repository.deleteById(id);
+        repository.findById(id).map(pedido -> {
+            repository.deleteById(pedido.getId());
+            return pedido;
+        }).orElseThrow(() -> new PedidoNaoEncontradoException() );
     }
 }
