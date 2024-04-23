@@ -1,9 +1,11 @@
 package com.jeanlima.springrestapiapp.service.impl;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import aj.org.objectweb.asm.Type;
 import org.springframework.stereotype.Service;
 
 import com.jeanlima.springrestapiapp.enums.StatusPedido;
@@ -42,17 +44,28 @@ public class PedidoServiceImpl implements PedidoService {
                 .orElseThrow(() -> new RegraNegocioException("Código de cliente inválido."));
 
         Pedido pedido = new Pedido();
-        pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
         pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
+        pedido.setTotal(getValorTotal(itemsPedido));
         repository.save(pedido);
         itemsPedidoRepository.saveAll(itemsPedido);
         pedido.setItens(itemsPedido);
         return pedido;
     }
+
+    private BigDecimal getValorTotal(List<ItemPedido> itemsPedido) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (ItemPedido itemPedido : itemsPedido) {
+            BigDecimal subtotal = itemPedido.getProduto().getPreco().multiply(BigDecimal.valueOf(itemPedido.getQuantidade()));
+            total = total.add(subtotal);
+        }
+
+        return total;
+    }
+
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
         if(items.isEmpty()){
             throw new RegraNegocioException("Não é possível realizar um pedido sem items.");
