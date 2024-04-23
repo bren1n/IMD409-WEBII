@@ -6,19 +6,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import aj.org.objectweb.asm.Type;
+import com.jeanlima.springrestapiapp.model.*;
+import com.jeanlima.springrestapiapp.repository.*;
 import org.springframework.stereotype.Service;
 
 import com.jeanlima.springrestapiapp.enums.StatusPedido;
 import com.jeanlima.springrestapiapp.exception.PedidoNaoEncontradoException;
 import com.jeanlima.springrestapiapp.exception.RegraNegocioException;
-import com.jeanlima.springrestapiapp.model.Cliente;
-import com.jeanlima.springrestapiapp.model.ItemPedido;
-import com.jeanlima.springrestapiapp.model.Pedido;
-import com.jeanlima.springrestapiapp.model.Produto;
-import com.jeanlima.springrestapiapp.repository.ClienteRepository;
-import com.jeanlima.springrestapiapp.repository.ItemPedidoRepository;
-import com.jeanlima.springrestapiapp.repository.PedidoRepository;
-import com.jeanlima.springrestapiapp.repository.ProdutoRepository;
 import com.jeanlima.springrestapiapp.rest.dto.ItemPedidoDTO;
 import com.jeanlima.springrestapiapp.rest.dto.PedidoDTO;
 import com.jeanlima.springrestapiapp.service.PedidoService;
@@ -34,6 +28,7 @@ public class PedidoServiceImpl implements PedidoService {
     private final ClienteRepository clientesRepository;
     private final ProdutoRepository produtosRepository;
     private final ItemPedidoRepository itemsPedidoRepository;
+    private final EstoqueRepository estoqueRepository;
 
     @Override
     @Transactional
@@ -81,6 +76,20 @@ public class PedidoServiceImpl implements PedidoService {
                                     () -> new RegraNegocioException(
                                             "Código de produto inválido: "+ idProduto
                                     ));
+
+                    Estoque estoque = estoqueRepository
+                            .findByProdutoId(idProduto)
+                            .orElseThrow(
+                                    () -> new RegraNegocioException(
+                                            "Produto não possui estoque: " + idProduto
+                                    ));
+
+                    if (estoque.getQuantidade() - dto.getQuantidade() < 0) {
+                        throw new RegraNegocioException("Produto não possui estoque: " + idProduto);
+                    }
+
+                    estoque.setQuantidade(estoque.getQuantidade() - dto.getQuantidade());
+                    estoqueRepository.save(estoque);
 
                     ItemPedido itemPedido = new ItemPedido();
                     itemPedido.setQuantidade(dto.getQuantidade());
