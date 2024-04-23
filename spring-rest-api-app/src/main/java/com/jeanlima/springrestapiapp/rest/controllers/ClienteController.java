@@ -85,7 +85,7 @@ public class ClienteController {
         return clientes
                 .findById(id).map(c -> converterClienteParaClientePedido(c))
                 .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado."));
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
     }
 
     @PostMapping
